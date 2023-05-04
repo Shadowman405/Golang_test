@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo"
 )
 
 type Service interface {
@@ -21,7 +21,7 @@ func New(s Service) *Endpoint {
 	}
 }
 
-func (e *Endpoint) Status(ctx echo.Context) error {
+func (e *Endpoint) Handler(ctx echo.Context) error {
 	d := e.s.DaysLeft()
 
 	s := fmt.Sprintf("Days left: %d", d)
