@@ -12,7 +12,7 @@ import (
 func main() {
 	server := echo.New()
 
-	server.Use()
+	server.Use(MiddleWare)
 
 	server.GET("/status", Handler)
 
@@ -35,6 +35,11 @@ func Handler(ctx echo.Context) error {
 
 func MiddleWare(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(ctx echo.Context) error {
+		value := ctx.Request().Header.Get("User-Role")
+
+		if value == "admin" {
+			log.Println("admin detected")
+		}
 
 		err := next(ctx)
 		if err != nil {
