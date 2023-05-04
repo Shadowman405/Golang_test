@@ -12,6 +12,8 @@ import (
 func main() {
 	server := echo.New()
 
+	server.Use()
+
 	server.GET("/status", Handler)
 
 	error := server.Start(":8080")
@@ -29,4 +31,16 @@ func Handler(ctx echo.Context) error {
 	ctx.String(http.StatusOK, strStatus)
 
 	return nil
+}
+
+func MiddleWare(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(ctx echo.Context) error {
+
+		err := next(ctx)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
 }
