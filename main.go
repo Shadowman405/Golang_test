@@ -1,8 +1,25 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"net/http"
+
+	"github.com/labstack/echo/v4"
+)
 
 func main() {
-	const name, age = "Gofer", 22
-	fmt.Println("Hello ", name, " you are ", age, "years old")
+	server := echo.New()
+
+	server.GET("/status", Handler)
+
+	error := server.Start(":8080")
+	if error != nil {
+		log.Fatal(error)
+	}
+}
+
+func Handler(ctx echo.Context) error {
+	ctx.String(http.StatusOK, "test")
+
+	return nil
 }
